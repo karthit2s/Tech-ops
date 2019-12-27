@@ -1,0 +1,36 @@
+#!/bin/bash
+
+#ping -q -c5 google.com > /dev/null
+
+no_of_tun=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | grep 10.12 | wc -l)
+#echo $no_of_tun
+
+#if [ $? -eq 0 ];then  
+#echo "Internet is working"
+
+#fi	
+if curl -s --head  --request GET www.google.com | grep "200 OK" > /dev/null ; then
+    echo "Online"
+else
+    echo "Offline-Check internet settings"
+    exit 1
+fi
+
+
+if [ $no_of_tun -eq 1 ];
+then
+	echo "VPN up"
+
+elif [ $no_of_tun -eq 2 ];
+then
+	echo "VPN Down cause of Multiple VPN. So Killing all VPN Services" 
+       	echo "Restarting Vpn services $(sudo killall openvpn) $(sudo service openvpn start)"
+	
+elif [ $no_of_tun -eq 0 ];
+then
+	echo "VPN Down"
+        echo "starting VPN services $(sudo service openvpn start)"
+else
+	echo "ok"
+fi
+

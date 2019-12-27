@@ -1,0 +1,9 @@
+#!/bin/bash
+
+read -p 'User name :' useName
+read -sp 'Password :' passW
+echo 
+read -p 'Host :' hostName
+
+sshpass -p $passW ssh $useName@$hostName 'w; export DISPLAY=:0; unity-control-center;'
+

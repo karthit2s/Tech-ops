@@ -1,0 +1,49 @@
+# Tech-ops
+
+#!/bin/bash
+
+
+#sudo apt-get install linux-headers
+#sudo apt-get install git dkms git make build-essential
+#cd /usr/src
+
+kernel=$(uname -r)
+
+
+
+if [ $kernel == "4.13.0-041300-generic" ] ;
+then
+        echo "Procced Installation"
+elif [ $kernel == "4.4.3-040403-generic" ] ;
+then
+        echo "Upgrading the kernal $upgrading()"
+else
+       echo "Downgrading the kernal $downgrade()"
+fi
+
+
+
+
+
+upgrading(){
+
+
+wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.13/linux-headers-4.13.0-041300_4.13.0-041300.201709031731_all.deb
+
+wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.13/linux-headers-4.13.0-041300-generic_4.13.0-041300.201709031731_i386.deb
+
+wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.13/linux-image-4.13.0-041300-generic_4.13.0-041300.201709031731_i386.deb
+
+dpkg -i linux-headers-4.13.0-041300_4.13.0-041300.201709031731_all.deb
+
+dpkg -i linux-headers-4.13.0-041300-generic_4.13.0-041300.201709031731_i386.deb
+
+dpkp -i linux-image-4.13.0-041300-generic_4.13.0-041300.201709031731_i386.deb
+}
+
+
+downgrade(){
+echo "get out"
+sudo rc linux-image-4.13.0-41-generic 4.13.0-41.46~16.04.1 amd64 Linux kernel image for version 4.13.0 on 64 bit x86 SMP
+reboot
+}

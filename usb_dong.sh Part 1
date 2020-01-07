@@ -1,32 +1,18 @@
-# Tech-ops
-
 #!/bin/bash
 
 
-#sudo apt-get install linux-headers
-#sudo apt-get install git dkms git make build-essential
-#cd /usr/src
+echo "Installing the WIfi Dongle"
+
+sudo apt-get install linux-headers
+sudo apt-get install git dkms git make build-essential
+cd /usr/src
 
 kernel=$(uname -r)
 
 
+up_grading () {
 
-if [ $kernel == "4.13.0-041300-generic" ] ;
-then
-        echo "Procced Installation"
-elif [ $kernel == "4.4.3-040403-generic" ] ;
-then
-        echo "Upgrading the kernal $upgrading()"
-else
-       echo "Downgrading the kernal $downgrade()"
-fi
-
-
-
-
-
-upgrading(){
-
+echo "Upgrading the kernel"	
 
 wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.13/linux-headers-4.13.0-041300_4.13.0-041300.201709031731_all.deb
 
@@ -41,9 +27,37 @@ dpkg -i linux-headers-4.13.0-041300-generic_4.13.0-041300.201709031731_i386.deb
 dpkp -i linux-image-4.13.0-041300-generic_4.13.0-041300.201709031731_i386.deb
 }
 
-
-downgrade(){
-echo "get out"
-sudo rc linux-image-4.13.0-41-generic 4.13.0-41.46~16.04.1 amd64 Linux kernel image for version 4.13.0 on 64 bit x86 SMP
+down_grade () {
+echo "down_grading Kernel"
+sudo apt remove linux-image-4.13.0-41-generic 4.13.0-41.46~16.04.1 amd64 Linux kernel image for version 4.13.0 on 64 bit x86 SMP
 reboot
 }
+
+
+
+Proceed () {
+echo "Installing WIfi Dongle "
+sudo git clone https://github.com/abhijeet2096/TL-WN722N-V2
+sudo dkms add ./TL-WN722N-V2
+sudo dkms build -m 8188eu -v 1.2
+sudo dkms install -m 8188eu -v 1.2
+sudo modprobe 8188eu
+reboot
+}
+
+
+if [ $kernel == "4.13.0-041300-generic" ] ;
+then
+        echo "Procced Installation"
+	Proceed
+
+elif [ $kernel == "4.15.0-72-generic" ] ;
+
+then
+	echo "calling function 1"
+	up_grading
+else
+	echo "calling funtion 2"
+	down_grade
+fi
+

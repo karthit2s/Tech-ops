@@ -16,12 +16,20 @@ pactl set-default-sink $usb_speaker
 
 
 su t2s
-
+read -s -p "Password: " password
 
 
 echo 'set-default-sink 0'  |  sudo tee -a /etc/pulse/default.pa
 echo 'set-default-source 0'  |  sudo tee -a /etc/pulse/default.pa
 
+
+
+aplay /usr/share/sounds/alsa/Side_Right.wav
+~                                                                                                                                                                                                                  
+~                                                                                                                                                                                                                  
+~                                                                                                                                                                                                                  
+~                                                                                                                                                                                                                  
+~                                                                     
 
 
 ~                                                                                                                                                                                                           
